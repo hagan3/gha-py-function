@@ -1,0 +1,54 @@
+name: Terraform Plan
+
+on:
+  workflow_dispatch:
+    inputs:
+      # clientSecret:
+      #   description: 'Key'
+      #   required: true
+      resourcePrefix:
+        description: 'Prefix'
+        required: true
+        default: 'aaa'
+      resourceInstance:
+        description: 'Instance#'
+        required: true
+        default: '001'
+      # databrickssubnet1number:
+      #   description: 'Databricks 1st Subnet number'
+      #   required: true
+      # databrickssubnet1ip:
+      #   description: 'CIDR for 1st subnet'
+      #   required: true
+      #   default: '172.23.0.0/26'
+      # databrickssubnet2number:
+      #   description: 'Databricks 2nd Subnet number'
+      #   required: true
+      # databrickssubnet2ip:
+      #   description: 'CIDR for 2nd subnet'
+      #   required: true
+      #   default: '172.23.0.64/26'
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      ARM_CLIENT_ID: ${{secrets.TF_ARM_CLIENT_ID}}
+      ARM_CLIENT_SECRET: ${{github.event.inputs.clientSecret}}
+      ARM_SUBSCRIPTION_ID: ${{secrets.TF_ARM_SUBSCRIPTION_ID}}
+      ARM_TENANT_ID: ${{secrets.TF_ARM_TENANT_ID}}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init -backend-config="key=sbx/${{github.event.inputs.resourcePrefix}}.${{github.event.inputs.resourceInstance}}"
+
+      - name: Terraform Plan
+        # run: terraform plan -var resource_prefix="${{github.event.inputs.resourcePrefix}}" -var resource_instance="${{github.event.inputs.resourceInstance}}" -var databrickssubnet1number="${{github.event.inputs.databrickssubnet1number}}" -var databrickssubnet2number="${{github.event.inputs.databrickssubnet2number}}" -var databrickssubnet1ip="${{github.event.inputs.databrickssubnet1ip}}" -var databrickssubnet2ip="${{github.event.inputs.databrickssubnet2ip}}"
+        run: terraform plan -var resource_prefix="${{github.event.inputs.resourcePrefix}}" -var resource_instance="${{github.event.inputs.resourceInstance}}"
+
