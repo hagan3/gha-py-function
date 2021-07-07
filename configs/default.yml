@@ -1,0 +1,55 @@
+load_edmonton_kpi_tutt_forward:
+  blob_path : '04_secondary/Edmonton/Edmonton_kpi-tu_forward.csv'
+  sql_table_name : edmonton_kpi_tu_tt_forward
+  src2sql_col_map :
+    DateTime: 'datetime'
+    tank_id: 'tank_id'
+    shell_capacity: 'shell_capacity'
+    h_alarm: 'h_alarm_bbl'
+    averaged-timePeriod: 'averaged_timePeriod'
+    average_volume: 'average_volume'
+    flow_out: 'flow_out'
+    TT: 'tt'
+    TU: 'tu'
+    cc_op: 'cc_op'
+  sql_view_select_clause: >
+    select id as ID, datetime as DateTime, tank_id as 'Tank ID',
+    averaged_timePeriod as 'Rolling Average Period',
+    h_alarm_bbl as 'High Level Alarm',
+    shell_capacity as 'Max Shell Capacity',
+    flow_out as 'Flow Out',
+    average_volume as 'Average Volume',
+    tu as 'Tank Utilization',
+    tt as 'Tank Turns',
+    cc_op as 'TU Color Code',
+    updated_at as 'UpdateDate'
+    from dbo.edmonton_kpi_tu_tt_forward
+
+load_edmonton_kpi_dfs_forward:
+  blob_path : '04_secondary/Edmonton/Edmonton_kpi-dfs_forward.csv'
+  sql_table_name : edmonton_kpi_dfs_forward
+  src2sql_col_map : 
+    DateTime: 'datetime'
+    plant: 'plant'
+    averaged-timePeriod: 'averaged_timePeriod'
+    plant-target: 'plant_target'
+    feed: 'feed'
+    charge: 'charge'
+    excess: 'excess'
+    dfs: 'dfs'
+    optol: 'optol'
+    cc_op: 'cc_op'
+  sql_view_select_clause: >
+    select id as ID,
+    datetime as DateTime,
+    plant as 'Plant ID',
+    averaged_timePeriod as 'Rolling Average Period',
+    plant_target as 'Plant Target',
+    feed as 'Tank Volume',
+    charge as 'Crude Charge Rate',
+    excess as 'Plant Volume Deviation',
+    dfs as 'Days Forward Supply',
+    optol as 'DFS Operational Tolerance %',
+    cc_op as 'Color Code',
+    updated_at as UpdateDate
+    from dbo.edmonton_kpi_dfs_forward

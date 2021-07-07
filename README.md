@@ -1,2 +1,1 @@
-# gha-py-function
-Sandbox for Azure function deployment
+# Extract Transform and Load Data Pipeline
