@@ -16,7 +16,7 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-  AZURE_FUNCTIONAPP_NAME: iaac-demo # set this to your application's name
+  AZURE_FUNCTIONAPP_NAME: 'iaac-demo' # set this to your application's name
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'   # set this to the path to your web app project, defaults to the repository root
   PYTHON_VERSION: '3.7'                 # set this to the python version to use (supports 3.6, 3.7, 3.8)
 
@@ -32,7 +32,7 @@ jobs:
       uses: Azure/login@v1
       with:
     # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
-    creds: ${{secrets.AZURE_CREDENTIALS}}
+      creds: ${{secrets.AZURE_CREDENTIALS}}
     # Set this value to true to enable Azure PowerShell Login in addition to Az CLI login
 
     - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
